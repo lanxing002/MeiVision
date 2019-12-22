@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="/Entry"/>
+  <qresource prefix="/btn_icon">
+    <file>Resources/play.png</file>
+    <file>Resources/play_1.png</file>
+  </qresource>
+</RCC>

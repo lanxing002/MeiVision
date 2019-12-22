@@ -1,0 +1,56 @@
+bool, table = Mat.open(lua:string) 打开一个image file
+bool = Mat.show()  显示图片
+{r, g, b} = Mat.at(int x, int y) read a pixel
+bool = Mat.write(int x, int y, table) // write a r g b value contained in table
+
+需要自己先写一个lua文件  mat.lua
+requires(mat) // 脚本文件之中需要实现
+step 1：creat a new table 
+stop 2: table.id = hash(img)
+step 3: set metatable, metatable has a sets of function, default function in __index artuibute, 
+step 4, return new table
+
+lua string 做法：
+
+static const luaL_Reg strlib[] = {
+  {"byte", str_byte},
+  {"char", str_char},
+  {"dump", str_dump},
+  {"find", str_find},
+  {"format", str_format},
+  {"gmatch", gmatch},
+  {"gsub", str_gsub},
+  {"len", str_len},
+  {"lower", str_lower},
+  {"match", str_match},
+  {"rep", str_rep},
+  {"reverse", str_reverse},
+  {"sub", str_sub},
+  {"upper", str_upper},
+  {"pack", str_pack},
+  {"packsize", str_packsize},
+  {"unpack", str_unpack},
+  {NULL, NULL}
+};
+
+
+static void createmetatable (lua_State *L) {
+  lua_createtable(L, 0, 1);  /* table to be metatable for strings */
+  lua_pushliteral(L, "");  /* dummy string */
+  lua_pushvalue(L, -2);  /* copy table */
+  lua_setmetatable(L, -2);  /* set table as metatable for strings */
+  lua_pop(L, 1);  /* pop dummy string */
+  lua_pushvalue(L, -2);  /* get string library */
+  lua_setfield(L, -2, "__index");  /* metatable.__index = string */
+  lua_pop(L, 1);  /* pop metatable */
+}
+
+
+/*
+** Open string library
+*/
+LUAMOD_API int luaopen_string (lua_State *L) {
+  luaL_newlib(L, strlib);
+  createmetatable(L);
+  return 1;
+}

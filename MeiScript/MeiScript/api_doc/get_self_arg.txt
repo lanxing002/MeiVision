@@ -1,0 +1,52 @@
+static int findImgProxy(lua_State *L)
+{
+  // discard any extra arguments passed in
+  lua_settop(L, 1);
+  luaL_checktype(L, 1, LUA_TTABLE);
+
+  // Now to get the data out of the table
+  // 'unpack' the table by putting the values onto
+  // the stack first. Then convert those stack values
+  // into an appropriate C type.
+  lua_getfield(L, 1, "imagePath");
+  lua_getfield(L, 1, "fuzzy");
+  lua_getfield(L, 1, "ignoreColor");
+  // stack now has following:
+  //   1  = {imagePath="/var/image.png", fuzzy=0.5, ignoreColor=0xffffff}
+  //   -3 = "/var/image.png"
+  //   -2 = 0.5
+  //   -1 = 0xffffff
+
+  const char *imagePath = luaL_checkstring(L, -3);
+  double fuzzy    = luaL_checknumber(L, -2);
+  int ignoreColor = luaL_checkint(L, -1);
+  // we can pop fuzzy and ignoreColor off the stack
+  // since we got them by value
+  lua_pop(L, 2);
+
+  // do function processing
+  // ...
+
+  return 1;
+}
+
+quote :https://stackoverflow.com/questions/18478379/how-to-work-with-tables-passed-as-an-argument-to-a-lua-c-function
+
+
+/* actual definitions of modA() and modB() are left as an exercise. */
+
+/* list of functions in the module */
+static const luaL_reg modfuncs[] =
+{
+    { "a", modA},
+    { "b", modB},
+    { NULL, NULL }
+};
+
+/* module loader function called eventually by require"mod" */  
+int luaopen_mod(lua_State *L) {
+    luaL_register(L, "mod", modfuncs);
+    return 1;
+}
+
+quote: https://stackoverflow.com/questions/2710194/register-c-function-in-lua-table

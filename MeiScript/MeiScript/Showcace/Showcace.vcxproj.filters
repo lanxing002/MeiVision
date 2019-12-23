@@ -154,6 +154,9 @@
     <ClCompile Include="lua\lzio.c">
       <Filter>Lua</Filter>
     </ClCompile>
+    <ClCompile Include="ConsoleWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="lua\redirect.cpp">
       <Filter>Lua</Filter>
     </ClCompile>
@@ -161,6 +164,12 @@
   <ItemGroup>
     <QtMoc Include="Entry.h">
       <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="ConsoleWindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="lua\redirectCpp.h">
+      <Filter>Lua</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>

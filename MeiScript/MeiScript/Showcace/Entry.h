@@ -4,6 +4,7 @@
 #include <QString>
 #include "ui_Entry.h"
 #include "LuaWrapper/luawrapper.h"
+#include <QDebug>
 
 class Entry : public QMainWindow
 {
@@ -18,4 +19,5 @@ public slots:
 
 private:
 	Ui::EntryClass ui;
+	stringstream outbuffer;
 };

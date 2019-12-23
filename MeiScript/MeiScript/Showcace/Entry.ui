@@ -106,7 +106,7 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QPlainTextEdit" name="plainTextEdit_2">
+       <widget class="QPlainTextEdit" name="console_text">
         <property name="documentTitle">
          <string>console</string>
         </property>

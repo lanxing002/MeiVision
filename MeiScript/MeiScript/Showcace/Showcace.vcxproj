@@ -89,6 +89,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ConsoleWindow.cpp" />
     <ClCompile Include="Entry.cpp" />
     <ClCompile Include="LuaWrapper\luawrapper.cpp" />
     <ClCompile Include="lua\lapi.c" />
@@ -140,6 +141,7 @@
     <QtRcc Include="Entry.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="ConsoleWindow.h" />
     <ClInclude Include="LuaWrapper\luawrapper.h" />
     <ClInclude Include="lua\lapi.h" />
     <ClInclude Include="lua\lauxlib.h" />
@@ -168,6 +170,7 @@
     <ClInclude Include="lua\lvm.h" />
     <ClInclude Include="lua\lzio.h" />
     <ClInclude Include="lua\redirect.h" />
+    <QtMoc Include="lua\redirectCpp.h" />
     <ClInclude Include="Test\ReadTest.h" />
     <ClInclude Include="VisionMoudle\mat.h" />
   </ItemGroup>

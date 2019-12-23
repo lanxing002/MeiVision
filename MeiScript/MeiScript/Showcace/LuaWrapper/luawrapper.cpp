@@ -83,4 +83,43 @@ namespace Lua {
 		// return a table
 		return 1;
 	}
+
+
+
+	streambuf* Lua_script::redirect_io(stringstream& ssbuffer) {
+		streambuf*  backbuf = cout.rdbuf();
+		cout.rdbuf(ssbuffer.rdbuf());	
+		return backbuf;
+	}
+
+	void Lua_script::reset_io(streambuf* backbuf) {
+		cout.rdbuf(backbuf);
+	}
+
+	int Lua_script::run_script(const string& str, stringstream& outbuffer) {
+
+		streambuf* backbuf = redirect_io(outbuffer);
+		lua_State* L;
+
+		if (nullptr == (L = luaL_newstate())) {
+			cerr << "failed open lua" << endl;
+			return -1;
+		}
+
+		luaL_openlibs(L);
+		lua_register(L, "init", Lua_CretaTable::init);
+		luaL_dostring(L, str.c_str());
+
+		lua_close(L);
+		reset_io(backbuf);
+		outbuffer.flush();
+
+		string line;
+		while (getline(outbuffer, line)) {
+			qDebug() << QString::fromStdString(line);
+		}
+
+		return 0;
+	}
+
 }

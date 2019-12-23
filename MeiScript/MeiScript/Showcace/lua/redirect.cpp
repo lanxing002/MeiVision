@@ -2,41 +2,38 @@ extern "C" {
 #include "redirect.h"
 }
 
-#include <iostream>
-#include <sstream>
-using namespace std;
+#include "redirectCpp.h"
 
-class OutBuffer {
-public:
-	static stringstream outbuffer;
+ConsoleSender* StaticSender::static_sender = nullptr;
 
-	static stringstream& getBuffer() {
-		return outbuffer;
+
+void StaticSender::init_sender(QObject* parent) {
+	static_sender =new ConsoleSender(parent);
+}
+
+void StaticSender::destroy_sender() {
+	if (static_sender != nullptr) {
+		delete static_sender;
 	}
-};
-
-
-FILE* mystdout;
-FILE* mystderr;
-
-int init_io() {
-	OutBuffer::outbuffer = stringstream("");
-	mystdout = fopen("C:/Users/riseK/mine/program/MeiVision/MeiScript/MeiScript/lua_stdout.tmp", "wb");
-	mystderr = fopen("C:/Users/riseK/mine/program/MeiVision/MeiScript/MeiScript/lua_stderr.tmp", "wb");
-
-	if (mystdout == NULL || mystderr == NULL)
-		return -1;
-	else return 0;
 }
 
-void close_io() {
-	fclose(mystdout);
-	fclose(mystderr);
-	//remove("C:/Users/riseK/mine/program/MeiVision/MeiScript/MeiScript/lua_stdout.tmp");
-	//remove("C:/Users/riseK/mine/program/MeiVision/MeiScript/MeiScript/lua_stderr.tmp");
+const ConsoleSender* StaticSender::get_sender() {
+	return static_sender;
 }
 
+void StaticSender::send_msg(const string& str) {
+	if (static_sender != nullptr) {
+		emit static_sender->sig_stdout(str);
+	}
+	return;
+}
 
 void my_write(const char* s, size_t l) {
-	std::cout.write(s, l);
+	StaticSender::send_msg(string(s, l));
+
+}
+void my_write_error(const char* str, const char* format) {
+	char buffer[1024];
+	sprintf(buffer, str, format);
+	StaticSender::send_msg(string(buffer));
 }

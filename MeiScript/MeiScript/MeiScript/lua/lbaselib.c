@@ -9,7 +9,6 @@
 
 #include "lprefix.h"
 
-#include "redirect.h"
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>

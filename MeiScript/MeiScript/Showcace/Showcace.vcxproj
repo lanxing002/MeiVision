@@ -91,6 +91,7 @@
   <ItemGroup>
     <ClCompile Include="ConsoleWindow.cpp" />
     <ClCompile Include="Entry.cpp" />
+    <ClCompile Include="HighLighter.cpp" />
     <ClCompile Include="LuaWrapper\luawrapper.cpp" />
     <ClCompile Include="lua\lapi.c" />
     <ClCompile Include="lua\lauxlib.c" />
@@ -129,7 +130,11 @@
     <ClCompile Include="lua\lzio.c" />
     <ClCompile Include="lua\redirect.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="VisionMoudle\mat.cpp" />
+    <ClCompile Include="ScriptWindow.cpp" />
+    <ClCompile Include="SourceMnger.cpp" />
+    <ClCompile Include="VisionMoudle\mat_old.cpp" />
+    <ClCompile Include="VisionMoudle\MeiImg.cpp" />
+    <ClCompile Include="VisionMoudle\MoudleManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Entry.h" />
@@ -141,8 +146,11 @@
     <QtRcc Include="Entry.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="VisionMoudle\MeiImg.h" />
+    <ClInclude Include="VisionMoudle\MoudleManager.h" />
     <QtMoc Include="ConsoleWindow.h" />
-    <ClInclude Include="LuaWrapper\luawrapper.h" />
+    <QtMoc Include="LuaWrapper\luawrapper.h" />
+    <QtMoc Include="HighLighter.h" />
     <ClInclude Include="lua\lapi.h" />
     <ClInclude Include="lua\lauxlib.h" />
     <ClInclude Include="lua\lcode.h" />
@@ -171,8 +179,10 @@
     <ClInclude Include="lua\lzio.h" />
     <ClInclude Include="lua\redirect.h" />
     <QtMoc Include="lua\redirectCpp.h" />
+    <QtMoc Include="ScriptWindow.h" />
+    <QtMoc Include="SourceMnger.h" />
     <ClInclude Include="Test\ReadTest.h" />
-    <ClInclude Include="VisionMoudle\mat.h" />
+    <ClInclude Include="VisionMoudle\mat_old.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

@@ -44,7 +44,7 @@ namespace Lua {
 			lua_register(L, "init", Lua_CretaTable::init);
 
 			std::string lua_script = "t = init()\nprint(t)\nt.show();";
-			std::string lua_script2 = "print(\"ttttttttttttttttt\")\n";
+			std::string lua_script2 = "prnint(\"ttttttttttttttttt\")\n";
 
 			//if (luaL_dofile(L, "C:\\Users\\riseK\\mine\\program\\MeiVision\\MeiScript\\MeiScript\\MeiScript\\lua_script_test\\lua_create.lua")) {
 			//	cerr << "failed open lua test file" << endl;
@@ -54,7 +54,7 @@ namespace Lua {
 
 
 			lua_close(L);
-			close_io();
+			//close_io();
 			return 0;
 		}
 	};

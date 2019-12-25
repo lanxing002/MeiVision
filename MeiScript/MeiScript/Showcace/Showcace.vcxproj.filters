@@ -9,11 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
-      <Extensions>qrc;*</Extensions>
-      <ParseFiles>false</ParseFiles>
-    </Filter>
     <Filter Include="Form Files">
       <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
       <Extensions>ui</Extensions>
@@ -35,6 +30,11 @@
     <Filter Include="Lua">
       <UniqueIdentifier>{963509ec-5cd8-4437-afae-0f8ffb7f2e96}</UniqueIdentifier>
     </Filter>
+    <Filter Include="LuaWrapper\Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -45,9 +45,6 @@
     </ClCompile>
     <ClCompile Include="LuaWrapper\luawrapper.cpp">
       <Filter>LuaWrapper</Filter>
-    </ClCompile>
-    <ClCompile Include="VisionMoudle\mat.cpp">
-      <Filter>VisionMoudle</Filter>
     </ClCompile>
     <ClCompile Include="lua\lapi.c">
       <Filter>Lua</Filter>
@@ -160,6 +157,24 @@
     <ClCompile Include="lua\redirect.cpp">
       <Filter>Lua</Filter>
     </ClCompile>
+    <ClCompile Include="ScriptWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HighLighter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceMnger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VisionMoudle\mat_old.cpp">
+      <Filter>VisionMoudle</Filter>
+    </ClCompile>
+    <ClCompile Include="VisionMoudle\MeiImg.cpp">
+      <Filter>VisionMoudle</Filter>
+    </ClCompile>
+    <ClCompile Include="VisionMoudle\MoudleManager.cpp">
+      <Filter>VisionMoudle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Entry.h">
@@ -171,6 +186,18 @@
     <QtMoc Include="lua\redirectCpp.h">
       <Filter>Lua</Filter>
     </QtMoc>
+    <QtMoc Include="LuaWrapper\luawrapper.h">
+      <Filter>LuaWrapper</Filter>
+    </QtMoc>
+    <QtMoc Include="ScriptWindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="HighLighter.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="SourceMnger.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Entry.ui">
@@ -179,16 +206,10 @@
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="Entry.qrc">
-      <Filter>Resource Files</Filter>
+      <Filter>LuaWrapper\Resource Files</Filter>
     </QtRcc>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LuaWrapper\luawrapper.h">
-      <Filter>LuaWrapper</Filter>
-    </ClInclude>
-    <ClInclude Include="VisionMoudle\mat.h">
-      <Filter>VisionMoudle</Filter>
-    </ClInclude>
     <ClInclude Include="Test\ReadTest.h">
       <Filter>Test</Filter>
     </ClInclude>
@@ -272,6 +293,15 @@
     </ClInclude>
     <ClInclude Include="lua\redirect.h">
       <Filter>Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="VisionMoudle\mat_old.h">
+      <Filter>VisionMoudle</Filter>
+    </ClInclude>
+    <ClInclude Include="VisionMoudle\MeiImg.h">
+      <Filter>VisionMoudle</Filter>
+    </ClInclude>
+    <ClInclude Include="VisionMoudle\MoudleManager.h">
+      <Filter>VisionMoudle</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

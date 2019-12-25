@@ -1,125 +1,61 @@
 #include "luawrapper.h"
 
 namespace Lua {
-
-	static const luaL_Reg mat_meta_fun[] = {
-		{"open", Lua_Mat::open_mat},
-	    {"show", Lua_Mat::show_mat},
-	    {"at", Lua_Mat::at},
-	    {"write", Lua_Mat::write},
-		{NULL, NULL}
-	};
-
-	int Lua_Mat::open_mat(lua_State* L) {
-		// a table function, first arg is a table
-		//luaL_checktype(L, 1, LUA_TNUMBER);  // is a hashcode for pointer
-	
-		//size_t hash_code = lua_tonumber(L, -1);
-		//lua_createtable(L, 0, 0);
-		//lua_pushnumber(L, hash_code);
-		//lua_setfield(L, -2, "hash");
-
-		// set metatable for this table
-		std::cout << "mat \"open\" method recall" << endl;
-
-		return 1; // return a table 
-
-
-		//const char* imagePath = lua_tostring(L, 2);
-		//QImage* img = new QImage(imagePath);
-		//if (img == nullptr) {
-		//	lua_pushboolean(L, false);  // print error message
-		//	return 1;
-		//}
-		//else {
-		//	lua_pushboolean(L, true);
-		//}
-
-		//size_t hash_code = hasher(img);
-		//img_map[hash_code] = img;
-		//conver pointer to hash value for resue
+	LuaScript::LuaScript(QObject* parent, SourceMnger* amng)
+		:QThread(parent), mng(amng) {
+		finished = true;
 	}
 
-	int Lua_Mat::show_mat(lua_State* L) {
-		std::cout << "mat \"show\" method recall" << endl;
-		return 1;
+	LuaScript::~LuaScript() {
+		wait();
 	}
 
-	int Lua_Mat::at(lua_State* L) {
-		std::cout << "mat \"at\" methond recall" << endl;
-		return 1;
-	}
-
-	int Lua_Mat::write(lua_State* L) {
-		std::cout << "mat \"write\" method recall" << endl;
-		return 1;
-	}
-
-	void Lua_CretaTable::create_mat_metatable(lua_State* L) {
-		lua_createtable(L, 0, 1); //create metateable for a new table
-		lua_createtable(L, 0, 4); // create __index table for basic function
-		
-		lua_pushcfunction(L, Lua_Mat::write);
-		lua_pushcfunction(L, Lua_Mat::at);
-		lua_pushcfunction(L, Lua_Mat::show_mat);
-		lua_pushcfunction(L, Lua_Mat::open_mat);
-
-		// register all function 
-		lua_setfield(L, 2, "open");
-		lua_setfield(L, 2, "show");
-		lua_setfield(L, 2, "at");
-		lua_setfield(L, 2, "write");
-		// set metatable's __index field
-		lua_setfield(L, 1, "__index");
-	}
-
-	int Lua_CretaTable::init(lua_State* L) {
-		
-		//luaL_register(L, "mod", mat_meta_fun);
-		create_mat_metatable(L);
-		lua_createtable(L, 0, 0);
-		lua_pushvalue(L,1);
-		lua_setmetatable(L, -2);
-		// return a table
-		return 1;
-	}
-
-
-
-	streambuf* Lua_script::redirect_io(stringstream& ssbuffer) {
-		streambuf*  backbuf = cout.rdbuf();
-		cout.rdbuf(ssbuffer.rdbuf());	
-		return backbuf;
-	}
-
-	void Lua_script::reset_io(streambuf* backbuf) {
-		cout.rdbuf(backbuf);
-	}
-
-	int Lua_script::run_script(const string& str, stringstream& outbuffer) {
-
-		streambuf* backbuf = redirect_io(outbuffer);
-		lua_State* L;
-
-		if (nullptr == (L = luaL_newstate())) {
-			cerr << "failed open lua" << endl;
-			return -1;
+	int LuaScript::check_ok(lua_State* L, int status) {
+		if (status != LUA_OK) {
+			//some error here
+			const char* msg = lua_tostring(L, -1);
+			lua_pop(L, -1);
+			emit sig_outmsg(string(msg));
 		}
+		return status;
+	}
+
+	void LuaScript::run_script(const string& str) {
+		if (!finished) return;  // last script has finished
+		this->script_text = str;
+
+		run();
+	}
+
+	void LuaScript::run() {
+		//for multi thead
+		mutex.lock();
+		finished = false;
+		mutex.unlock();
+
+		lua_State* L;
+		if (nullptr == (L = luaL_newstate())) {
+			//cerr << "failed open lua" << endl;
+			return;
+		}
+
+		//set vison moudle source manager
+		MeiImg::imgMger = mng;
 
 		luaL_openlibs(L);
-		lua_register(L, "init", Lua_CretaTable::init);
-		luaL_dostring(L, str.c_str());
-
+		lua_register(L, "init", MeiImg::init);  // in lua return a table
+		int status = luaL_dostring(L, script_text.c_str());
+		int result = lua_toboolean(L, -1);
+		check_ok(L, status);
 		lua_close(L);
-		reset_io(backbuf);
-		outbuffer.flush();
+		
+		//destory source manager
 
-		string line;
-		while (getline(outbuffer, line)) {
-			qDebug() << QString::fromStdString(line);
-		}
+		mutex.lock();
+		finished = true;
+		mutex.unlock();
 
-		return 0;
+		return;
 	}
 
 }

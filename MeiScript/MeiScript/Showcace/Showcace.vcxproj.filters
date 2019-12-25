@@ -175,6 +175,9 @@
     <ClCompile Include="VisionMoudle\MoudleManager.cpp">
       <Filter>VisionMoudle</Filter>
     </ClCompile>
+    <ClCompile Include="ShowWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Entry.h">
@@ -196,6 +199,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="SourceMnger.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="ShowWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

@@ -131,6 +131,7 @@
     <ClCompile Include="lua\redirect.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ScriptWindow.cpp" />
+    <ClCompile Include="ShowWidget.cpp" />
     <ClCompile Include="SourceMnger.cpp" />
     <ClCompile Include="VisionMoudle\mat_old.cpp" />
     <ClCompile Include="VisionMoudle\MeiImg.cpp" />
@@ -146,6 +147,7 @@
     <QtRcc Include="Entry.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="ShowWidget.h" />
     <ClInclude Include="VisionMoudle\MeiImg.h" />
     <ClInclude Include="VisionMoudle\MoudleManager.h" />
     <QtMoc Include="ConsoleWindow.h" />

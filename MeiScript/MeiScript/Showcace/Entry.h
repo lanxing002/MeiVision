@@ -7,7 +7,6 @@
 #include <QMessageBox>
 #include "ui_Entry.h"
 #include "LuaWrapper/luawrapper.h"
-#include "lua/redirectCPP.h"
 #include "HighLighter.h"
 #include <QDebug>
 
@@ -27,7 +26,9 @@ public slots:
 	bool save();
 	bool saveAs();
 	bool save_file(const QString& file_name);
-	void draw_img(const QImage& img);
+	void reset_show_img(size_t id);
+
+	void receive_test(const string& str);
 
 private:
 	Ui::EntryClass ui;

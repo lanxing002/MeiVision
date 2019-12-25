@@ -1,23 +1,28 @@
 #include "Entry.h"
+#include <QTimer>
 
 Entry::Entry(QWidget *parent)
 	: QMainWindow(parent)
 {
 	mng = new SourceMnger(this);
-	run_thread = new Lua::LuaScript(this, mng);
+	run_thread = new Lua::LuaScript(mng, statusBar());
 
 	ui.setupUi(this);
-	connect(mng, &SourceMnger::sig_show_msg, this, &Entry::draw_img);
+	connect(mng, &SourceMnger::sig_show_msg, this, &Entry::reset_show_img);
 	connect(ui.run_btn, &QPushButton::clicked, this, &Entry::run_script);
 
-	//init stdout
-	StaticSender::init_sender(this);
-	const ConsoleSender* console_sender = StaticSender::get_sender();
 	//connect(console_sender, &ConsoleSender::sig_stdout, ui.console_text, &ConsoleWindow::update_log, Qt::QueuedConnection);
-	connect(console_sender, &ConsoleSender::sig_stdout, ui.console_text, &ConsoleWindow::update_log);
-	connect(run_thread, &Lua::LuaScript::sig_outmsg, ui.console_text, &ConsoleWindow::update_error_log);
+	connect(run_thread, &Lua::LuaScript::sig_stdoutmsg, ui.console_text, &ConsoleWindow::update_log);
+	connect(run_thread, &Lua::LuaScript::sig_erroutmsg, ui.console_text, &ConsoleWindow::update_error_log);
 	connect(ui.actionopen, &QAction::triggered, this, &Entry::open);
 	connect(ui.actionsave, &QAction::triggered, this, &Entry::save);
+
+	//init show widget
+	QTimer* timer = new QTimer(this);
+	ui.openGLWidget->setMng(mng);
+	connect(timer, &QTimer::timeout, ui.openGLWidget, &ShowWidget::animate);
+	timer->start(5000);
+	connect(mng, &SourceMnger::sig_show_msg, ui.openGLWidget, &ShowWidget::setId);
 	
 	QAction* runAction = new QAction(this);
 	runAction->setShortcut(tr("f5"));
@@ -44,8 +49,8 @@ void Entry::run_script() {
 	ui.console_text->clear();
 	ui.console_text->insertPlainText("script starting...\n");
 	QString text = ui.script_text->toPlainText();
-	run_thread->run_script(text.toStdString());
-	
+	if (!run_thread->isFinished()) return;
+	run_thread->set_script_run(text.toStdString());
 	mng->clear(); // 每一次脚本运行之后清理脚本所不能释放的资源， 例如图片
 	//Lua::Lua_script::run_script(text.toStdString(), outbuffer);
 	//ui.console_text->clear_text_buffer();
@@ -108,7 +113,11 @@ bool Entry::save_file(const QString& file_name) {
 }
 
 
-void Entry::draw_img(const QImage& img) {
-	//ui.openGLWidget->
+void Entry::reset_show_img(size_t id) {
+	ui.openGLWidget->setId(id);
+}
+
+void Entry::receive_test(const string& str) {
+	qDebug() << QString::fromStdString(str);
 }
 

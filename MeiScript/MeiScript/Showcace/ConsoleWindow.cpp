@@ -1,4 +1,5 @@
 #include "ConsoleWindow.h"
+#include <QThread>
 
 ConsoleWindow::ConsoleWindow(QWidget* parent)
 	: QPlainTextEdit(parent)
@@ -9,12 +10,12 @@ ConsoleWindow::~ConsoleWindow()
 {
 }
 
-void ConsoleWindow::update_log(std::string str) {
+void ConsoleWindow::update_log(const std::string& str) {
 	this->insertPlainText(QString::fromStdString(str));
 	update();
 }
 
-void ConsoleWindow::update_error_log(std::string str) {
+void ConsoleWindow::update_error_log(const std::string& str) {
 	stringstream ss(str);
 	string line;
 	QString html_text;

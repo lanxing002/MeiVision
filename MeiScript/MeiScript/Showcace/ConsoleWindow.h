@@ -16,6 +16,6 @@ public:
 	~ConsoleWindow();
 
 public slots:
-	void update_log(std::string str);
-	void update_error_log(std::string str);
+	void update_log(const std::string& str);
+	void update_error_log(const std::string& str);
 };

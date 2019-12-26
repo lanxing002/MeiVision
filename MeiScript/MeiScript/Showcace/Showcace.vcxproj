@@ -133,6 +133,7 @@
     <ClCompile Include="ScriptWindow.cpp" />
     <ClCompile Include="ShowWidget.cpp" />
     <ClCompile Include="SourceMnger.cpp" />
+    <ClCompile Include="ToolBar.cpp" />
     <ClCompile Include="VisionMoudle\mat_old.cpp" />
     <ClCompile Include="VisionMoudle\MeiImg.cpp" />
     <ClCompile Include="VisionMoudle\MoudleManager.cpp" />
@@ -148,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="ShowWidget.h" />
+    <QtMoc Include="ToolBar.h" />
     <ClInclude Include="VisionMoudle\MeiImg.h" />
     <ClInclude Include="VisionMoudle\MoudleManager.h" />
     <QtMoc Include="ConsoleWindow.h" />

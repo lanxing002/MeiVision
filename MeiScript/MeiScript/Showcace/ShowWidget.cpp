@@ -1,7 +1,7 @@
 #include "ShowWidget.h"
 
 ShowWidget::ShowWidget(QWidget* parent)
-	: QOpenGLWidget(parent)
+	: QOpenGLWidget(parent), id(0)
 {
 }
 
@@ -13,8 +13,9 @@ void ShowWidget::animate() {
 	update();
 }
 
-void ShowWidget::setId(size_t id) {
+void ShowWidget::setId(int id) {
 	this->id = id;
+	update();
 }
 
 void ShowWidget::show_test_img(QImage img) {
@@ -26,10 +27,14 @@ void ShowWidget::setMng(SourceMnger* mng) {
 
 void ShowWidget::paintEvent(QPaintEvent* event) {
 	QImage* p = mng->getImg(id);
-	if (p == nullptr)
-		return QOpenGLWidget::paintEvent(event);
+	QImage img;
+	if (p == nullptr) {
+		img = bakImg;
+	}
+	else {
+		img = *p; bakImg = img;
+	}
 
-	QImage img = *p;
 	QPainter painter;
 	painter.begin(this);
 	painter.setRenderHint(QPainter::Antialiasing);

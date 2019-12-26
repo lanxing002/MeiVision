@@ -178,6 +178,9 @@
     <ClCompile Include="ShowWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ToolBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Entry.h">
@@ -202,6 +205,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="ShowWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="ToolBar.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

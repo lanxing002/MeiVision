@@ -29,6 +29,15 @@ int MeiImg::open_mat(lua_State* L) {
 	size_t id = imgMger->openImg(str);
 	lua_pushnumber(L, id);
 	lua_setfield(L, 1, "id");   
+
+	QImage* img = imgMger->getImg(id);
+	lua_pushnumber(L, img->width());
+	lua_setfield(L, 1, "width");
+	lua_pushnumber(L, img->height());
+	lua_setfield(L, 1, "height");
+	lua_pushnumber(L, img->depth());
+	lua_setfield(L, 1, "depth");
+
 	//push bool and return 1
 	return 1;
 }
@@ -37,11 +46,10 @@ int MeiImg::open_mat(lua_State* L) {
 int MeiImg::show_mat(lua_State* L) {  //connect with qt gui 
 	size_t id = get_id(L);
 	imgMger->showImg(id);
-	
 	return 0;
 }
 
-//args ({id}, x, y)
+//args {r, b, g} = ({id}, x, y)
 int MeiImg::at(lua_State* L) {
 	QImage* img = imgMger->getImg(get_id(L));
 	int y = lua_tonumber(L, -1);
@@ -49,18 +57,18 @@ int MeiImg::at(lua_State* L) {
 	lua_pop(L, 2); // pop x, y position
 	QColor c = img->pixelColor(x, y);
 
-	//lua_createtable(L, 0, 0); // create color table
+	lua_createtable(L, 0, 0); // create color table
 
 	lua_pushnumber(L, c.red());
 	lua_pushnumber(L, c.green());
 	lua_pushnumber(L, c.blue());
 	//set field value in color table
 
-	//lua_setfield(L, -4, "blue");
-	//lua_setfield(L, -3, "green");
-	//lua_setfield(L, -2, "red");
+	lua_setfield(L, 2, "b");
+	lua_setfield(L, 2, "g");
+	lua_setfield(L, 2, "r");
 
-	return 3; // return a table
+	return 1; // return a table
 }
 
 //args({id}, x£¬ y, color = {})
@@ -71,9 +79,11 @@ int MeiImg::write(lua_State* L) {
 	int x = luaL_checkinteger(L, -3);
 	luaL_argcheck(L, x >= 0 && y >= 0, 2, "color position out of range");
 	
-	lua_getfield(L, -1, "red"); // push red to statck
-	lua_getfield(L, -1, "green");
-	lua_getfield(L, -1, "blue");
+	luaL_checktype(L, -1, LUA_TTABLE);
+
+	lua_getfield(L, -1, "r"); // push red to statck
+	lua_getfield(L, -2, "g");
+	lua_getfield(L, -3, "b");
 	 
 	int b = lua_tonumber(L, -1);
 	int g = lua_tonumber(L, -2);
@@ -82,6 +92,18 @@ int MeiImg::write(lua_State* L) {
 	img->setPixelColor(x, y, {r, g, b});
 	lua_pushboolean(L, true);
 	return 1;
+}
+
+//args({id}, x£¬ y, color = {})
+int MeiImg::size(lua_State* L) {
+	QImage* img = imgMger->getImg(get_id(L));
+	lua_pushnumber(L, img->width());
+	lua_setfield(L, 1, "width");
+	lua_pushnumber(L, img->height());
+	lua_setfield(L, 1, "height");
+	lua_pushnumber(L, img->depth());
+	lua_setfield(L, 1, "depth");
+	return 0;
 }
 
 size_t MeiImg::get_id(lua_State* L) {
@@ -101,8 +123,10 @@ void MeiImg::create_mat_metatable(lua_State* L) {
 	lua_pushcfunction(L, MeiImg::at);
 	lua_pushcfunction(L, MeiImg::show_mat);
 	lua_pushcfunction(L, MeiImg::open_mat);
+	lua_pushcfunction(L, MeiImg::size);
 
 	// register all function 
+	lua_setfield(L, 2, "size");
 	lua_setfield(L, 2, "open");
 	lua_setfield(L, 2, "show");
 	lua_setfield(L, 2, "at");

@@ -2,26 +2,32 @@
 #include <QTimer>
 
 Entry::Entry(QWidget *parent)
-	: QMainWindow(parent)
+	: QMainWindow(parent), isUntitled(false)
 {
+
 	mng = new SourceMnger(this);
-	run_thread = new Lua::LuaScript(mng, statusBar());
+	//run_thread = new Lua::LuaScript(mng, statusBar());
+	run_thread = new Lua::LuaScript(mng);
 
 	ui.setupUi(this);
+	setupToolBar();
+
 	connect(mng, &SourceMnger::sig_show_msg, this, &Entry::reset_show_img);
 	connect(ui.run_btn, &QPushButton::clicked, this, &Entry::run_script);
 
 	//connect(console_sender, &ConsoleSender::sig_stdout, ui.console_text, &ConsoleWindow::update_log, Qt::QueuedConnection);
 	connect(run_thread, &Lua::LuaScript::sig_stdoutmsg, ui.console_text, &ConsoleWindow::update_log);
 	connect(run_thread, &Lua::LuaScript::sig_erroutmsg, ui.console_text, &ConsoleWindow::update_error_log);
+	connect(run_thread, &Lua::LuaScript::sig_took_time, this, &Entry::update_statusbar_msg);
 	connect(ui.actionopen, &QAction::triggered, this, &Entry::open);
 	connect(ui.actionsave, &QAction::triggered, this, &Entry::save);
+	connect(ui.pallet_btn, &QPushButton::clicked, this, &Entry::pick_color);
 
 	//init show widget
 	QTimer* timer = new QTimer(this);
 	ui.openGLWidget->setMng(mng);
 	connect(timer, &QTimer::timeout, ui.openGLWidget, &ShowWidget::animate);
-	timer->start(5000);
+	timer->start(100);
 	connect(mng, &SourceMnger::sig_show_msg, ui.openGLWidget, &ShowWidget::setId);
 	
 	QAction* runAction = new QAction(this);
@@ -44,18 +50,29 @@ void Entry::createStatusBar() {
 	statusBar()->showMessage(tr("Ready"));
 }
 
+void Entry::setupToolBar() {
+	paintTool = new PaintToolBar(this);
+	scriptTool = new ScriptToolBar(this);
+	addToolBar(paintTool);
+	addToolBar(scriptTool);
+}
+
 //slots
 void Entry::run_script() {
 	ui.console_text->clear();
 	ui.console_text->insertPlainText("script starting...\n");
 	QString text = ui.script_text->toPlainText();
-	if (!run_thread->isFinished()) return;
+	if (!run_thread->isFinished()) run_thread->quit();
 	run_thread->set_script_run(text.toStdString());
-	mng->clear(); // 每一次脚本运行之后清理脚本所不能释放的资源， 例如图片
 	//Lua::Lua_script::run_script(text.toStdString(), outbuffer);
 	//ui.console_text->clear_text_buffer();
 }
 
+void Entry::pick_color()
+{
+	QColorDialog* dig = new QColorDialog(this);
+	dig->open(this, "id");
+}
 
 void Entry::open() {
 	const QString file_name = QFileDialog::getOpenFileName(this);
@@ -83,7 +100,7 @@ void Entry::open_file(const QString& file_name) {
 }
 
 bool Entry::save() {
-	return   isUntitled ? saveAs() : save_file(cur_file);
+	return   isUntitled ? save_file(cur_file):saveAs();
 }
 
 bool Entry::saveAs() {
@@ -118,6 +135,9 @@ void Entry::reset_show_img(size_t id) {
 }
 
 void Entry::receive_test(const string& str) {
-	qDebug() << QString::fromStdString(str);
+	qDebug() << QString::fromStdString(str) << "----------------------------rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr";
 }
 
+void Entry::update_statusbar_msg(const QString& msg, int time) {
+	statusBar()->showMessage(msg, time);
+}

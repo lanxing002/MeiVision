@@ -25,7 +25,8 @@ namespace Lua {
 	class LuaScript : public QThread {
 		Q_OBJECT
 	public:
-		LuaScript(SourceMnger* mng, QStatusBar* statusBar, QObject* parent = 0);
+		//LuaScript(SourceMnger* mng, QStatusBar* statusBar, QObject* parent = 0);
+		LuaScript(SourceMnger* amng, QObject* parent = 0);
 		~LuaScript();
 
 		int check_ok(lua_State* L, int status);
@@ -33,17 +34,16 @@ namespace Lua {
 		void run_script();
 		void register_sleep(lua_State* L);
 		int lua_sleep(lua_State* L);
-		bool isFinished();
 
 	signals:
-		void sig_erroutmsg(const string& str);
-		void sig_stdoutmsg(const string& str);
+		void sig_erroutmsg(const QString& str);
+		void sig_stdoutmsg(const QString& str);
+		void sig_took_time(const QString& str, int cnt);
 
 	protected:
 		void run();
 
 	private:
-		bool finished;
 		SourceMnger* mng;
 		QMutex mutex;
 		string script_text;

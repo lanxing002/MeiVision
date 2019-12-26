@@ -15,7 +15,7 @@ public:
 	~ConsoleSender() {};
 
 signals:
-	void sig_stdout(string str);
+	void deep_sig_stdout(const QString& str);
 };
 
 class StaticSender {

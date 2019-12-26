@@ -55,6 +55,20 @@
        </spacer>
       </item>
       <item>
+       <widget class="QPushButton" name="painter_btn">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="Entry.qrc">
+          <normaloff>:/btn_icon/Resources/icons8-paint-80.png</normaloff>:/btn_icon/Resources/icons8-paint-80.png</iconset>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="horizontalSpacer_3">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -66,6 +80,20 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="color_picker_btn">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="Entry.qrc">
+          <normaloff>:/btn_icon/Resources/icons8-color-dropper-96.png</normaloff>:/btn_icon/Resources/icons8-color-dropper-96.png</iconset>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
       <item>
        <spacer name="horizontalSpacer_6">
@@ -81,7 +109,47 @@
        </spacer>
       </item>
       <item>
+       <widget class="QPushButton" name="pallet_btn">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="Entry.qrc">
+          <normaloff>:/btn_icon/Resources/icons8-paint-palette-80.png</normaloff>:/btn_icon/Resources/icons8-paint-palette-80.png</iconset>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="horizontalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_8">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
@@ -107,6 +175,33 @@
           <width>18</width>
           <height>18</height>
          </size>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_7">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="stop_btn">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="Entry.qrc">
+          <normaloff>:/btn_icon/Resources/icons8-stop-64.png</normaloff>:/btn_icon/Resources/icons8-stop-64.png</iconset>
         </property>
         <property name="flat">
          <bool>true</bool>
@@ -175,14 +270,6 @@
     <addaction name="actionsave"/>
    </widget>
    <addaction name="menu"/>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
   </widget>
   <action name="actionopen">
    <property name="text">

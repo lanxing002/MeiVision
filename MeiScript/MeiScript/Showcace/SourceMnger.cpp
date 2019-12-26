@@ -12,24 +12,24 @@ SourceMnger::~SourceMnger()
 		delete img;
 	}
 }
-size_t SourceMnger::openImg(const string& img_name) {
+int SourceMnger::openImg(const string& img_name) {
 	QImage* img = new QImage(QString::fromStdString(img_name));
 	
 	if (img == NULL)
 		return 0;
 	
 	vec.push_back(img);
-	return vec.size() - (size_t)1;
+	return vec.size() - 1;
 }
 
-QImage* SourceMnger::getImg(size_t id) {
+QImage* SourceMnger::getImg(int id) {
 	if (id >= vec.size())
 		return nullptr;
 
 	return vec[id];
 }
 
-void SourceMnger::showImg(size_t id) {
+void SourceMnger::showImg(int id) {
 	if (id >= vec.size())
 		return;
 

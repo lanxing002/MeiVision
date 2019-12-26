@@ -9,6 +9,8 @@
 #include "LuaWrapper/luawrapper.h"
 #include "HighLighter.h"
 #include <QDebug>
+#include <QColorDialog>
+#include <ToolBar.h>
 
 class Entry : public QMainWindow
 {
@@ -18,6 +20,7 @@ public:
 	Entry(QWidget *parent = Q_NULLPTR);
 
 	void createStatusBar();
+	void setupToolBar();
 
 public slots:
 	void run_script();
@@ -27,6 +30,11 @@ public slots:
 	bool saveAs();
 	bool save_file(const QString& file_name);
 	void reset_show_img(size_t id);
+	void update_statusbar_msg(const QString& msg, int time);
+
+	//工具栏slots
+	void pick_color();
+
 
 	void receive_test(const string& str);
 
@@ -37,4 +45,11 @@ private:
 	SourceMnger* mng;
 	QString cur_file;
 	bool isUntitled;
+
+	//工具栏 属性
+	QColor pen_color;
+
+	QToolBar* paintTool;
+	QToolBar* scriptTool;
+
 };

@@ -15,7 +15,7 @@ public:
 
 public slots:
 	void animate();
-	void setId(size_t t);
+	void setId(int t);
 	void show_test_img(QImage img);
 
 protected:
@@ -23,5 +23,6 @@ protected:
 
 private:
 	SourceMnger* mng;
-	size_t id;
+	int id;
+	QImage bakImg;
 };

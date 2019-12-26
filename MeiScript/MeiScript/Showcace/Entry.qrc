@@ -1,7 +1,12 @@
 <RCC>
-  <qresource prefix="/Entry"/>
-  <qresource prefix="/btn_icon">
-    <file>Resources/play.png</file>
-    <file>Resources/play_1.png</file>
-  </qresource>
+    <qresource prefix="/Entry"/>
+    <qresource prefix="/btn_icon">
+        <file>Resources/play.png</file>
+        <file>Resources/ColorPicker.png</file>
+        <file>Resources/icons8-paint-palette-64.png</file>
+        <file>Resources/Painter.png</file>
+        <file>Resources/pallet.png</file>
+        <file>Resources/play_1.png</file>
+        <file>Resources/stop.png</file>
+    </qresource>
 </RCC>

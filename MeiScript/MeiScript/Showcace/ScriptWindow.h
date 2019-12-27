@@ -1,5 +1,7 @@
 #pragma once
 
+#include "HighLighter.h"
+
 #include <QPlainTextEdit>
 #include <QObject>
 #include <QPainter>
@@ -9,8 +11,17 @@
 #include <QWidget>
 #include <QAction>
 #include <QSyntaxHighlighter>
+#include <QDockWidget>
+#include <QMainWindow>
+#include <QMessageBox>
+#include <QDir>
+#include <QTextStream>
+#include <QFileDialog>
+#include <QSet>
+
 
 class LineNumberArea;
+class DockEditor;
 
 class ScriptEditor : public QPlainTextEdit
 {
@@ -25,8 +36,6 @@ public:
 
 protected:
 	void resizeEvent(QResizeEvent* event) override;
-	//void keyPressEvent(QKeyEvent* event) override;
-	//void keyReleaseEvent(QKeyEvent* event) override;
 
 public slots:
 	void update_cnt_area(const QRect &rect, int dy);
@@ -36,8 +45,6 @@ public slots:
 
 private:
 	QWidget* cnt_area;
-	bool ctrl_press;
-	QSet<int> pressedKeys;
 };
 
 
@@ -58,4 +65,38 @@ protected:
 
 private:
 	ScriptEditor* editor;
+};
+
+class DockEditor : public QDockWidget
+{
+	Q_OBJECT
+public:
+static int new_count;
+static QSet<QString> openedFile;
+
+public:
+	explicit DockEditor(const QString& , QMainWindow* parent = nullptr, QString file_name = "");
+	~DockEditor();
+
+//warp eidt signal
+signals:
+	void textChanged();
+
+public slots:
+	void setChanged();
+	void setSaved();
+	bool save();
+
+	const QString& text() const;
+	void openFile();
+
+private:
+	bool saveAs();
+	bool saveFile(const QString& tmp_name);
+	
+	ScriptEditor* editor;
+	QString edit_title;
+	QString file_path_name;
+ 
+	//一个文件只能在一个窗口之中打开
 };

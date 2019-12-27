@@ -10,7 +10,7 @@ public:
 	PaintToolBar(QWidget* parent);
 	~PaintToolBar();
 
-private:
+public:
 	QAction* painterAction;
 	QAction* colorPickActionAction;
 	QAction* palletAction;
@@ -25,7 +25,7 @@ public:
 	ScriptToolBar(QWidget* parent);
 	~ScriptToolBar();
 
-private:
+public:
 	QAction* runAction;
 	QAction* stopAction;
 };

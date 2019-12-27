@@ -18,8 +18,8 @@ public slots:
 	void setId(int t);
 	void show_test_img(QImage img);
 
-protected:
-	void paintEvent(QPaintEvent *event);
+//protected:
+//	void paintEvent(QPaintEvent *event);
 
 private:
 	SourceMnger* mng;

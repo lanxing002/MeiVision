@@ -35,6 +35,9 @@
       <Extensions>qrc;*</Extensions>
       <ParseFiles>false</ParseFiles>
     </Filter>
+    <Filter Include="Exception">
+      <UniqueIdentifier>{aa8db95a-8f1b-4d13-b86f-9b559820b8e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -151,9 +154,6 @@
     <ClCompile Include="lua\lzio.c">
       <Filter>Lua</Filter>
     </ClCompile>
-    <ClCompile Include="ConsoleWindow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="lua\redirect.cpp">
       <Filter>Lua</Filter>
     </ClCompile>
@@ -181,12 +181,15 @@
     <ClCompile Include="ToolBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ConsoleWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Exception\MeiException.cpp">
+      <Filter>Exception</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Entry.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="ConsoleWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="lua\redirectCpp.h">
@@ -208,6 +211,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="ToolBar.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="ConsoleWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -314,6 +320,9 @@
     </ClInclude>
     <ClInclude Include="VisionMoudle\MoudleManager.h">
       <Filter>VisionMoudle</Filter>
+    </ClInclude>
+    <ClInclude Include="Exception\MeiException.h">
+      <Filter>Exception</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

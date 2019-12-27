@@ -1,7 +1,7 @@
 #include "ScriptWindow.h"
 
 ScriptEditor::ScriptEditor(QWidget* parent)
-	: QPlainTextEdit(parent), ctrl_press(false)
+	: QPlainTextEdit(parent)
 {
 	cnt_area = new LineNumberArea(this);
 	connect(this, &QPlainTextEdit::blockCountChanged, this, &ScriptEditor::update_cnt_area_width);
@@ -101,4 +101,91 @@ void ScriptEditor::cnt_area_paint_event(QPaintEvent* event) {
 		++blockNumber;
 	}
 
+}
+
+int DockEditor::new_count = 1;
+QSet<QString> DockEditor::openedFile;
+
+DockEditor::DockEditor(const QString& title, QMainWindow* parent, QString file_path_name)
+:QDockWidget(title, (QWidget*)parent), edit_title(title), file_path_name(file_path_name) {
+	this->editor = new ScriptEditor(this);
+	connect(editor, &QPlainTextEdit::textChanged, this, &DockEditor::setChanged);
+	HighLighter* highLighter = new HighLighter(editor->document());
+	setWidget(editor);
+
+	if (file_path_name.size() > 0) {
+		assert(openedFile.contains(file_path_name) == false); 
+		openedFile.insert(file_path_name);
+		openFile();
+	}
+}
+
+DockEditor::~DockEditor() {}
+
+void DockEditor::openFile() {
+	QFile file(file_path_name);
+	if (!file.open(QFile::ReadWrite | QFile::Text)) {
+		QMessageBox::warning(this, tr("SDI"),
+			tr("Cannot read file %1:\n%2.")
+			.arg(QDir::toNativeSeparators(file_path_name), file.errorString()));
+		return;
+	}
+	QTextStream in(&file);
+	editor->setPlainText(in.readAll());
+}
+
+bool DockEditor::saveAs() {
+	const QString tmp_name = QFileDialog::getSaveFileName(this, tr("Save As"));
+	if (tmp_name.isEmpty())
+		return false;
+
+	if (DockEditor::openedFile.contains(tmp_name)) {
+		QMessageBox::warning(this, tr("SDI"),
+			tr("file %1 has opended.")
+			.arg(QDir::toNativeSeparators(file_path_name)));
+		return false;
+	}
+
+	bool result =  saveFile(tmp_name);
+	if (!result) return false;
+
+	QFileInfo fileInfo(tmp_name);
+	QString str(fileInfo.fileName());
+	setWindowTitle(str);
+	this->file_path_name = tmp_name;
+	this->edit_title = str;
+	openedFile.insert(tmp_name);
+	return true;
+}
+
+bool DockEditor::saveFile(const QString& tmp_name) {
+	QFile file(tmp_name);
+	if (!file.open(QFile::WriteOnly | QFile::Text)) {
+		QMessageBox::warning(this, tr("SDI"),
+			tr("Cannot write file %1:\n%2.")
+			.arg(QDir::toNativeSeparators(tmp_name), file.errorString()));
+		return false;
+	}
+
+	QTextStream out(&file);
+	//QApplication::setOverrideCursor(Qt::WaitCursor);
+	out << editor->toPlainText();
+	return true;
+}
+
+bool DockEditor::save() {
+	bool result =  file_path_name.size() > 0 ? saveFile(file_path_name) : saveAs();
+	setSaved();
+	return result;
+}
+
+const QString& DockEditor::text() const {
+	return editor->toPlainText();
+}
+
+void DockEditor::setChanged() {
+	setWindowTitle(edit_title + " *");
+}
+void DockEditor::setSaved() {
+	setWindowTitle(edit_title);
 }

@@ -26,6 +26,7 @@ ScriptToolBar::ScriptToolBar(QWidget* parent)
 
 	runAction = new QAction(this);
 	runAction->setIcon(QIcon(":/btn_icon/Resources/play.png"));
+	runAction->setShortcut(tr("f5"));
 	stopAction = new QAction(this);
 	stopAction->setIcon(QIcon(":/btn_icon/Resources/stop.png"));
 

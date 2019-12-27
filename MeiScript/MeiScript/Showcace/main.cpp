@@ -12,5 +12,10 @@ int main(int argc, char *argv[])
 	//w.setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
 
 	w.show();
+
+	//set font
+	QFont font("YaHei Consolas Hybrid", 10);
+	QApplication::setFont(font);
+	
 	return a.exec();
 }

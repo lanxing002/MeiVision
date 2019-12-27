@@ -25,20 +25,20 @@ void ShowWidget::setMng(SourceMnger* mng) {
 	this->mng = mng;
 }
 
-void ShowWidget::paintEvent(QPaintEvent* event) {
-	QImage* p = mng->getImg(id);
-	QImage img;
-	if (p == nullptr) {
-		img = bakImg;
-	}
-	else {
-		img = *p; bakImg = img;
-	}
-
-	QPainter painter;
-	painter.begin(this);
-	painter.setRenderHint(QPainter::Antialiasing);
-	QRectF target(0, 0, img.height(), img.width());
-	painter.drawImage(target, img);
-	painter.end();
-}
+//void ShowWidget::paintEvent(QPaintEvent* event) {
+//	QImage* p = mng->getImg(id);
+//	QImage img;
+//	if (p == nullptr) {
+//		img = bakImg;
+//	}
+//	else {
+//		img = *p; bakImg = img;
+//	}
+//
+//	QPainter painter;
+//	painter.begin(this);
+//	painter.setRenderHint(QPainter::Antialiasing);
+//	QRectF target(0, 0, img.height(), img.width());
+//	painter.drawImage(target, img);
+//	painter.end();
+//}

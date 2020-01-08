@@ -32,6 +32,7 @@ namespace Lua {
 		int check_ok(lua_State* L, int status);
 		void set_script_run(const string& str);
 		void run_script();
+		void stop_script();
 		void register_sleep(lua_State* L);
 		int lua_sleep(lua_State* L);
 
@@ -39,6 +40,7 @@ namespace Lua {
 		void sig_erroutmsg(const QString& str);
 		void sig_stdoutmsg(const QString& str);
 		void sig_took_time(const QString& str, int cnt);
+		void sig_script_stop();
 
 	protected:
 		void run();
@@ -48,6 +50,7 @@ namespace Lua {
 		QMutex mutex;
 		string script_text;
 		QStatusBar* mainstatusBar;
+		lua_State* L;
 	};
 
 	typedef int (LuaScript::* mem_func)(lua_State* L); // 重定义类内函数指针

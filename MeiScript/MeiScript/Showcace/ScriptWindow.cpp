@@ -34,6 +34,26 @@ void ScriptEditor::copy_line() {
 	this->moveCursor(QTextCursor::EndOfLine, QTextCursor::MoveAnchor);
 	this->insertPlainText("\n" + line);
 }
+void ScriptEditor::comment_line() {
+	this->moveCursor(QTextCursor::StartOfLine);
+	this->moveCursor(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
+
+	QString line = this->textCursor().selectedText();
+	if (line.size() == 0) return; // 空白行
+	
+	if (line.startsWith("--")) {
+		// 已经注释注释的行
+		this->textCursor().removeSelectedText();
+		this->insertPlainText(line.mid(2));
+		return;
+	}
+
+	QTextCursor bak = this->textCursor();
+	this->moveCursor(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
+	this->insertPlainText("--");
+	this->setTextCursor(bak);
+
+}
 
 int ScriptEditor::cnt_area_width() {
 	int digits = 1;
@@ -77,7 +97,6 @@ void ScriptEditor::highlight_current_line() {
 	setExtraSelections(extra_selections);
 }
 
-
 void ScriptEditor::cnt_area_paint_event(QPaintEvent* event) {
 	QPainter painter(cnt_area);
 	painter.fillRect(event->rect(), Qt::gray);
@@ -108,10 +127,16 @@ QSet<QString> DockEditor::openedFile;
 
 DockEditor::DockEditor(const QString& title, QMainWindow* parent, QString file_path_name)
 :QDockWidget(title, (QWidget*)parent), edit_title(title), file_path_name(file_path_name) {
+	setFeatures(QDockWidget::DockWidgetClosable); // 不能让该窗口移动，不然标签化的脚本编辑器会有错误
 	this->editor = new ScriptEditor(this);
 	connect(editor, &QPlainTextEdit::textChanged, this, &DockEditor::setChanged);
 	HighLighter* highLighter = new HighLighter(editor->document());
 	setWidget(editor);
+
+	//for good look
+	setStyleSheet("background-color: #cfd9e8");
+	editor->resize(500, 300);
+
 
 	if (file_path_name.size() > 0) {
 		assert(openedFile.contains(file_path_name) == false); 
@@ -132,6 +157,7 @@ void DockEditor::openFile() {
 	}
 	QTextStream in(&file);
 	editor->setPlainText(in.readAll());
+	setSaved();
 }
 
 bool DockEditor::saveAs() {
@@ -179,7 +205,7 @@ bool DockEditor::save() {
 	return result;
 }
 
-const QString& DockEditor::text() const {
+QString DockEditor::text() {
 	return editor->toPlainText();
 }
 

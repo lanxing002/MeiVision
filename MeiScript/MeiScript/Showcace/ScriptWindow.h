@@ -32,7 +32,7 @@ public:
 	~ScriptEditor();
 
 	int cnt_area_width();
-	void copy_line();
+
 
 protected:
 	void resizeEvent(QResizeEvent* event) override;
@@ -42,6 +42,9 @@ public slots:
 	void update_cnt_area_width(int);
 	void cnt_area_paint_event(QPaintEvent* e);
 	void highlight_current_line();
+
+	void copy_line();
+	void comment_line();
 
 private:
 	QWidget* cnt_area;
@@ -87,7 +90,10 @@ public slots:
 	void setSaved();
 	bool save();
 
-	const QString& text() const;
+	QString text();
+	void zoomIn(int range = 1) { editor->zoomIn(range); }
+	void zoomOut(int range = 1) { editor->zoomOut(range); }
+	void comment_line() { this->editor->comment_line(); }
 	void openFile();
 
 private:

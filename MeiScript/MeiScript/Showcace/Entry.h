@@ -2,6 +2,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include <QStatusBar>
+#include <QSettings>
 #include <QString>
 #include <QFileDialog>
 #include <QMessageBox>
@@ -12,8 +13,11 @@
 #include "LuaWrapper/luawrapper.h"
 #include "HighLighter.h"
 #include <QDebug>
+#include <QScrollArea>
 #include <QColorDialog>
-#include <ToolBar.h>
+#include <QLabel>
+#include <QComboBox>
+#include "ToolBar.h"
 
 class Entry : public QMainWindow
 {
@@ -23,38 +27,54 @@ public:
 	Entry(QWidget *parent = Q_NULLPTR);
 
 	void setupUI();
-	void createStatusBar();
 	void setupToolBar();
 	void setupMenuBar();
 	void setupDockWidget();
 	void setupCenterWidget();
+	void setupStatusBar();
+	void writeSettings(QString key = "Default");
+	void readSettings(QString key = "Default");
+
+	void createStatusBar();
+
 
 public slots:
+	//脚本运行slots
 	void run_script();
 	void stop_script();
-	void open();
-	void open_file(const QString& file_name);
-	bool save();
-	//bool saveAs();
-	//bool save_file(const QString& file_name);
+
+	//界面更新信息slots
 	void reset_show_img(size_t id);
-	void update_statusbar_msg(const QString& msg, int time);
+	void update_statusbar_msg(const QString& msg, int time = 0);
+	
+	//脚本编辑器的slots
 	void create_script();
+	void open();
+	bool save();
+	void comment_line() { this->activeEditor->comment_line(); }
+	//void resetEditorFont();
+	void editorZoomIn(int range = 1) { activeEditor->zoomIn(1); }
+	void editorZoomOut(int range = 1) { activeEditor->zoomOut(1); }
 
 	void set_active_editor(QDockWidget* dockWidget);
 	void dockWidget_topLevelChanged(bool );
+	void saveLayout();
+	void loadLayout();
+	void wirteSettings_slot() { writeSettings(); }
+	void readSettings_slot() { readSettings(); }
 
 	//工具栏slots
 	void pick_color();
+	void resize_toolBar(QSize size);
+	void set_btn_runstatu();
+	void set_btn_stopstatu();
 
-	void receive_test(const string& str);
+protected:
+	void closeEvent(QCloseEvent* event);
 
 private:
-	stringstream outbuffer;
 	Lua::LuaScript* run_thread;
 	SourceMnger* mng;
-	QString cur_file;
-	bool isUntitled;
 
 	//中心
 	ShowWidget* center;
@@ -69,6 +89,9 @@ private:
 	PaintToolBar* paintTool;
 	ScriptToolBar* scriptTool;
 	QColor pen_color;
-
-	//菜单栏
+	QScrollArea* scrollArea;
+	
+	//
+	QLabel* pixelMsg;
+	QComboBox* zoomBox;
 };

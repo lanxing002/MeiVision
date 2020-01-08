@@ -1,5 +1,8 @@
 <RCC>
-    <qresource prefix="/Entry"/>
+    <qresource prefix="/Entry">
+        <file>Resources/zoomin.png</file>
+        <file>Resources/zoomout.png</file>
+    </qresource>
     <qresource prefix="/btn_icon">
         <file>Resources/play.png</file>
         <file>Resources/ColorPicker.png</file>
@@ -8,5 +11,9 @@
         <file>Resources/pallet.png</file>
         <file>Resources/play_1.png</file>
         <file>Resources/stop.png</file>
+        <file>Resources/DecFont.png</file>
+        <file>Resources/IncFont.png</file>
+        <file>Resources/comment.png</file>
+        <file>Resources/zoom.png</file>
     </qresource>
 </RCC>

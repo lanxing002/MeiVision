@@ -10,7 +10,7 @@ namespace Lua {
 	//}
 
 	LuaScript::LuaScript(SourceMnger* amng, QObject* parent)
-		:QThread(parent), mng(amng) {
+		:QThread(parent), mng(amng),L(nullptr) {
 		StaticSender::init_sender(this);
 		const ConsoleSender* console_sender = StaticSender::get_sender();
 		connect(console_sender, &ConsoleSender::deep_sig_stdout, this, &LuaScript::sig_stdoutmsg);
@@ -60,11 +60,15 @@ namespace Lua {
 		QString msg = "script used time: " + QString::number(time_used) + "s " + QString::number(timer.elapsed()) + "ms";
 		//mainstatusBar->showMessage(msg, 8000);
 		emit sig_took_time(msg, 8000);
+		emit sig_script_stop();
 		return;
 	}
 
-	void LuaScript::run_script() {
-		lua_State* L;
+	void LuaScript::run_script() {	
+		if (L != nullptr) {
+			return; // last script has not finished
+		}
+
 		if (nullptr == (L = luaL_newstate())) {
 			//cerr << "failed open lua" << endl;
 			return;
@@ -79,6 +83,20 @@ namespace Lua {
 		int result = lua_toboolean(L, -1);
 		check_ok(L, status);
 		lua_close(L);
+		L = nullptr;
+
 	}
 
+	/*
+	** Hook set by signal function to stop the interpreter.
+	*/
+	static void lstop(lua_State* L, lua_Debug* ar) {
+		(void)ar;  /* unused arg. */
+		lua_sethook(L, NULL, 0, 0);  /* reset hook */
+		luaL_error(L, "interrupted!");
+	}
+
+	void LuaScript::stop_script() {
+		lua_sethook(L, lstop, LUA_MASKCALL | LUA_MASKRET | LUA_MASKCOUNT, 1);
+	}
 }

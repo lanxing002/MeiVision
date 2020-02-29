@@ -16,13 +16,14 @@ public:
 	SourceMnger(QObject *parent);
 	~SourceMnger();
 
-	int openImg(const string& img_name);
-	QImage* getImg(int id);
-	void showImg(int id);
+	size_t openImg(const string& img_name);
+	size_t grayImg(const size_t id);
+	QImage* getImg(size_t id);
+	void showImg(size_t id);
 	void clear();
 
 signals:
-	void sig_show_msg(int id);
+	void sig_show_msg(uint id);
 	void sig_show_img(QImage img);
 
 private:

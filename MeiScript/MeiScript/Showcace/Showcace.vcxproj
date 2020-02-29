@@ -135,9 +135,10 @@
     <ClCompile Include="ShowWidget.cpp" />
     <ClCompile Include="SourceMnger.cpp" />
     <ClCompile Include="ToolBar.cpp" />
-    <ClCompile Include="VisionMoudle\mat_old.cpp" />
+    <ClCompile Include="VisionMoudle\GraphMoudle.cpp" />
     <ClCompile Include="VisionMoudle\MeiImg.cpp" />
     <ClCompile Include="VisionMoudle\MoudleManager.cpp" />
+    <ClCompile Include="VisionMoudle\Render.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Entry.h" />
@@ -149,6 +150,8 @@
     <QtRcc Include="Entry.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="VisionMoudle\GraphMoudle.h" />
+    <ClInclude Include="VisionMoudle\Render.h" />
     <QtMoc Include="ShowWidget.h" />
     <QtMoc Include="ToolBar.h" />
     <ClInclude Include="Exception\MeiException.h" />
@@ -188,7 +191,6 @@
     <QtMoc Include="ScriptWindow.h" />
     <QtMoc Include="SourceMnger.h" />
     <ClInclude Include="Test\ReadTest.h" />
-    <ClInclude Include="VisionMoudle\mat_old.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

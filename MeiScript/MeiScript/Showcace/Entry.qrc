@@ -2,6 +2,7 @@
     <qresource prefix="/Entry">
         <file>Resources/zoomin.png</file>
         <file>Resources/zoomout.png</file>
+        <file>Resources/reset.png</file>
     </qresource>
     <qresource prefix="/btn_icon">
         <file>Resources/play.png</file>
@@ -15,5 +16,8 @@
         <file>Resources/IncFont.png</file>
         <file>Resources/comment.png</file>
         <file>Resources/zoom.png</file>
+        <file>Resources/zoomin.png</file>
+        <file>Resources/zoomout.png</file>
+        <file>Resources/reset.png</file>
     </qresource>
 </RCC>

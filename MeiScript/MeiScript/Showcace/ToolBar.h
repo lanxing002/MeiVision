@@ -16,6 +16,7 @@ public:
 	QAction* palletAction;
 	QAction* zoominAction;
 	QAction* zoomoutAction;
+	QAction* resetAction;
 };
 
 

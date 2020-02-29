@@ -7,8 +7,8 @@
 #include <QMutex>
 #include <QElapsedTimer>
 #include <QStatusBar>
-#include "VisionMoudle/MeiImg.h"
-#include "lua/redirectCPP.h"
+#include "../VisionMoudle/MeiImg.h"
+#include "../lua/redirectCPP.h"
 
 using namespace std;
 

@@ -15,9 +15,12 @@ PaintToolBar::PaintToolBar(QWidget* parent)
 
 
 	zoominAction = new QAction(this);;
-	zoominAction->setIcon(QIcon(":/btn_icon/Resources/zoomout.png"));
+	zoominAction->setIcon(QIcon(":/btn_icon/Resources/zoomin.png"));
 	zoomoutAction = new QAction(this);;
-	zoomoutAction->setIcon(QIcon(":/btn_icon/Resources/zoomin.png"));
+	zoomoutAction->setIcon(QIcon(":/btn_icon/Resources/zoomout.png"));
+	resetAction = new QAction(this);
+	resetAction->setIcon(QIcon(":/btn_icon/Resources/reset.png"));
+
 
 
 	addAction(painterAction);
@@ -25,6 +28,7 @@ PaintToolBar::PaintToolBar(QWidget* parent)
 	addAction(palletAction);
 	addAction(zoominAction);
 	addAction(zoomoutAction);
+	addAction(resetAction);
 }
 
 PaintToolBar::~PaintToolBar() {}

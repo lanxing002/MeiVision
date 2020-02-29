@@ -1,16 +1,10 @@
 #include "ShowWidget.h"
 
 ShowWidget::ShowWidget(QWidget* parent)
-	: QOpenGLWidget(parent), id(0)
+	: QOpenGLWidget(parent), id(0), bakImg(QSize(600, 400), QImage::Format_RGB32)
 {
+	bakImg.fill(qRgb(0, 0, 0));
 	//初始化透明化界面
-	m_tile = QPixmap(96, 96);
-	m_tile.fill(Qt::white);
-	QPainter pt(&m_tile);
-	QColor color(230, 230, 230);
-	pt.fillRect(0, 0, 48, 48, color);
-	pt.fillRect(48, 48, 48, 48, color);
-	pt.end();
 }
 
 ShowWidget::~ShowWidget()
@@ -21,12 +15,47 @@ void ShowWidget::animate() {
 	update();
 }
 
-void ShowWidget::setId(int id) {
-	this->id = id;
+void ShowWidget::bak_last_img() {
+	QImage* p = mng->getImg(this->id);
+
+	if (p != nullptr) {
+		QImage img = *p;
+		bakImg = img;
+	}
+}
+
+void ShowWidget::setId(uint id) { //size_t不是 QVariant 类型，不能传递
+	this->id = static_cast<size_t>(id);
 	update();
 }
 
 void ShowWidget::show_test_img(QImage img) {
+}
+
+void ShowWidget::zoomin_img() {
+	if (noscaledImg.isNull()) {
+		noscaledImg = bakImg;
+		bakImg = bakImg.scaled(QSize(bakImg.width() * 1.5, bakImg.height() * 1.5));
+	}
+	else bakImg = bakImg.scaled(QSize(bakImg.width() * 1.5, bakImg.height() * 1.5));
+	update();
+}
+void ShowWidget::zoomout_img() {
+	if (noscaledImg.isNull()) {
+		//第一次缩放，将该图片存储，方便恢复圆形状
+		noscaledImg = bakImg;
+		bakImg = bakImg.scaled(QSize(bakImg.width() / 1.5, bakImg.height() / 1.5));
+	}
+	else bakImg = bakImg.scaled(QSize(bakImg.width() / 1.5, bakImg.height() / 1.5));
+	update();
+}
+void ShowWidget::reset_img() {
+	if (noscaledImg.isNull()) //没有缩放所。
+		return;
+
+	bakImg = noscaledImg;
+	noscaledImg = QImage();
+	update();
 }
 
 void ShowWidget::setMng(SourceMnger* mng) {
@@ -36,43 +65,25 @@ void ShowWidget::setPixelShowLabel(QLabel* l) {
 	this->pixle_msg_label = l;
 }
 
-
 void ShowWidget::paintEvent(QPaintEvent* event) {
-	QImage* p = mng->getImg(id);
-	QImage img;
-	if (p == nullptr) {
-		img = bakImg;
+	QImage* p = mng->getImg(this->id);
+	if (p != nullptr) {
+		QImage img = *p;
+		bakImg = img;
 	}
-	else {
-		img = *p; bakImg = img;
-		resize(img.width(), img.height());
-	}
+	resize(bakImg.width(), bakImg.height());
+
 	QPainter painter;
 
 	painter.begin(this);
 	painter.setRenderHint(QPainter::Antialiasing);
-
-	//paint background
-	painter.drawTiledPixmap(rect(), m_tile);
-	//end of paint background
-
-	QRectF target(width()/2 - img.width() /2, height()/2 - img.height()/2, img.width(), img.height());
-	painter.drawImage(target, img);
+	painter.drawImage(QPointF(0, 0), bakImg);
+	
 	painter.end();
 }
 
 
-
 void ShowWidget::mouseMoveEvent(QMouseEvent* event) {
-	//if (pixle_msg_label != nullptr) {
-	//	QColor color = pickPixel(event->pos());
-	//	int r = color.red();
-	//	int g = color.green();
-	//	int b = color.blue();
-	//	QString msg = "r:" + QString::number(r) + " " + "g:" + QString::number(g) + " " + "b:"+QString::number(b);
-	//	pixle_msg_label->setText(msg);
-	//	return;
-	//}
 	QOpenGLWidget::mouseMoveEvent(event);
 }
 

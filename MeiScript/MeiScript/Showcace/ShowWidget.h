@@ -21,8 +21,13 @@ public:
 
 public slots:
 	void animate();
-	void setId(int t);
+	void bak_last_img();
+	void setId(uint t);
 	void show_test_img(QImage img);
+
+	void zoomin_img();
+	void zoomout_img();
+	void reset_img();
 
 signals:
 	void sig_resize(QSize size);
@@ -37,8 +42,9 @@ private:
 	QColor pickPixel(const QPoint &p);
 
 	SourceMnger* mng;
-	int id;
+	size_t id;
 	QImage bakImg;
+	QImage noscaledImg;
 	QPixmap m_tile;
 	QLabel* pixle_msg_label;
 };

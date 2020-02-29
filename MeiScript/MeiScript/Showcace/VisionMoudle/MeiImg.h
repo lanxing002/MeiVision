@@ -1,5 +1,6 @@
 #pragma once
-#include "SourceMnger.h"
+#include "../SourceMnger.h"
+#include "Render.h"
 
 extern "C" {
 #include "../lua/lua.h"
@@ -17,8 +18,11 @@ struct MeiImg
 	static int at(lua_State* L);
 	static int write(lua_State* L);
 	static int size(lua_State* L);
+	static int save(lua_State* L);
+	static int grayscale(lua_State* L);
 private:
 	static size_t get_id(lua_State* L);
 	static void create_mat_metatable(lua_State* L);
+	static void init_mat_table(lua_State* L, size_t id);
 };
 

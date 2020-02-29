@@ -72,17 +72,24 @@ void Entry::setupCenterWidget() {
 	scrollArea->setBackgroundRole(QPalette::Dark);
 	scrollArea->setWidget(center);
 
-	center->resize(400, 300);
+	center->resize(600, 400);
 	setCentralWidget(scrollArea);
 
+	//窗口放在 scroll area 中心位置
+	scrollArea->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
 
 	QTimer* timer = new QTimer(this);
 	connect(timer, &QTimer::timeout, center, &ShowWidget::animate);
 	timer->start(1000 / 100); //40 pic per second
 	center->setMng(mng);
-	connect(mng, &SourceMnger::sig_show_msg, center, &ShowWidget::setId);
-	//connect(center, &ShowWidget::sig_resize, this, &Entry::resize_toolBar);
-	//for update pixel msg with current position
+	connect(mng, &SourceMnger::sig_show_msg, center, &ShowWidget::setId, Qt::DirectConnection);
+	connect(paintTool->zoominAction, &QAction::triggered, center, &ShowWidget::zoomin_img);
+	connect(paintTool->zoomoutAction, &QAction::triggered, center, &ShowWidget::zoomout_img);
+	connect(paintTool->resetAction, &QAction::triggered, center, &ShowWidget::reset_img);
+
+	//脚本结束后，立即更新界面
+	connect(run_thread, &Lua::LuaScript::sig_script_stop, center, &ShowWidget::bak_last_img, Qt::DirectConnection); // 同步更新，立即执行
+
 }
 
 void Entry::setupStatusBar() {

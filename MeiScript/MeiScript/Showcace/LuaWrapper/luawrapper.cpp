@@ -34,7 +34,7 @@ namespace Lua {
 	void LuaScript::set_script_run(const string& str) {
 		if (isRunning()) return;  // last script has not finished
 		this->script_text = str;
-		mng->clear(); // 每一次脚本运行之后清理脚本所不能释放的资源， 例如图片
+		mng->clear(); // 每一次脚本运行之前清理脚本所不能释放的资源， 例如图片
 		start();
 	}
 
@@ -45,7 +45,7 @@ namespace Lua {
 	}
 
 	void LuaScript::register_sleep(lua_State* L) {
-		*static_cast<LuaScript**>(lua_getextraspace(L)) = this;
+		*static_cast<LuaScript**>(lua_getextraspace(L)) = this;  //存放this指针
 		lua_register(L, "sleep", &dispatch<&LuaScript::lua_sleep>);
 	}
 
@@ -55,12 +55,12 @@ namespace Lua {
 		timer.start();
 		//for multi thead
 		run_script();  // invoke member function
-
 		int time_used = timer.elapsed() / 1000;
 		QString msg = "script used time: " + QString::number(time_used) + "s " + QString::number(timer.elapsed()) + "ms";
 		//mainstatusBar->showMessage(msg, 8000);
 		emit sig_took_time(msg, 8000);
 		emit sig_script_stop();
+		mng->clear();  //clear source vector,知道图像更新了以后，才可以完全清除，不然会造成不同步的现象
 		return;
 	}
 
@@ -75,6 +75,7 @@ namespace Lua {
 		}
 		//set vison moudle source manager
 		MeiImg::imgMger = mng;
+		Render::imgMger = mng;
 
 		luaL_openlibs(L);
 		register_sleep(L);

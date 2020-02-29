@@ -166,9 +166,6 @@
     <ClCompile Include="SourceMnger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VisionMoudle\mat_old.cpp">
-      <Filter>VisionMoudle</Filter>
-    </ClCompile>
     <ClCompile Include="VisionMoudle\MeiImg.cpp">
       <Filter>VisionMoudle</Filter>
     </ClCompile>
@@ -187,6 +184,12 @@
     <ClCompile Include="Exception\MeiException.cpp">
       <Filter>Exception</Filter>
     </ClCompile>
+    <ClCompile Include="VisionMoudle\Render.cpp">
+      <Filter>VisionMoudle</Filter>
+    </ClCompile>
+    <ClCompile Include="VisionMoudle\GraphMoudle.cpp">
+      <Filter>VisionMoudle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Entry.h">
@@ -204,9 +207,6 @@
     <QtMoc Include="HighLighter.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="SourceMnger.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="ShowWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -214,6 +214,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="ConsoleWindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="SourceMnger.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -312,9 +315,6 @@
     <ClInclude Include="lua\redirect.h">
       <Filter>Lua</Filter>
     </ClInclude>
-    <ClInclude Include="VisionMoudle\mat_old.h">
-      <Filter>VisionMoudle</Filter>
-    </ClInclude>
     <ClInclude Include="VisionMoudle\MeiImg.h">
       <Filter>VisionMoudle</Filter>
     </ClInclude>
@@ -323,6 +323,12 @@
     </ClInclude>
     <ClInclude Include="Exception\MeiException.h">
       <Filter>Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="VisionMoudle\Render.h">
+      <Filter>VisionMoudle</Filter>
+    </ClInclude>
+    <ClInclude Include="VisionMoudle\GraphMoudle.h">
+      <Filter>VisionMoudle</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

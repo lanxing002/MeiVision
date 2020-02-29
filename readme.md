@@ -4,4 +4,4 @@
 
 ## 图像界面 
 
-![](MeiScript\pic\framework.jpg)
+![https://s2.ax1x.com/2020/02/29/3s3PDx.jpg](https://s2.ax1x.com/2020/02/29/3s3PDx.jpg)
